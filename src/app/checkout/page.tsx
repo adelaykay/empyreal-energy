@@ -130,11 +130,13 @@ export default function CheckoutPage() {
     const orderId = await createOrder(reference.reference);
 
     if (orderId) {
-      // Clear cart
-      await clearCart();
-
-      // Redirect to success page
+      // Redirect to success page first (don't clear cart yet)
       router.push(`/checkout/success?orderId=${orderId}`);
+      
+      // Clear cart after redirect (will happen in background)
+      setTimeout(async () => {
+        await clearCart();
+      }, 1000);
     } else {
       alert('Order creation failed. Please contact support with reference: ' + reference.reference);
     }

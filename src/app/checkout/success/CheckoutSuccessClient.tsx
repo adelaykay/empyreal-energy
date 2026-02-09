@@ -10,11 +10,13 @@ import { Order } from '@/types/order';
 import { getDocument } from '@/lib/firebase/firestore';
 import { formatPrice, formatDateTime } from '@/lib/utils';
 import { CheckCircle, Package, Home } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
 
 
 export function CheckoutSuccessClient() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId');
+  const { clearCart } = useCart();
   
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,11 @@ export function CheckoutSuccessClient() {
       try {
         const orderData = await getDocument<Order>('orders', orderId);
         setOrder(orderData);
+        
+        // Clear cart after successful order
+        if (orderData) {
+          await clearCart();
+        }
       } catch (error) {
         console.error('Error fetching order:', error);
       } finally {
@@ -37,7 +44,7 @@ export function CheckoutSuccessClient() {
     };
 
     fetchOrder();
-  }, [orderId]);
+  }, [orderId, clearCart]);
 
   if (loading) {
     return (

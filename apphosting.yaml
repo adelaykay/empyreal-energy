@@ -1,0 +1,83 @@
+# Settings for Backend (on Cloud Run).
+runConfig:
+  minInstances: 0
+
+env:
+  # -------------------------
+  # Firebase Client (public)
+  # -------------------------
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyDLtzk7JUdWUad5W9qt3kwt8usCfkOBIoE
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: empyrealenergy.firebaseapp.com
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: empyrealenergy
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: empyrealenergy.firebasestorage.app
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "70519749226"
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:70519749226:web:150ede9b6e7e04c14fe813
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+    value: G-K38Z3SP74Z
+    availability: [BUILD, RUNTIME]
+
+  # -------------------------
+  # Paystack (public)
+  # -------------------------
+  - variable: NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
+    value: pk_test_b4d3370b1ca3d417545358c0ba5bf696de7d019c
+    availability: [BUILD, RUNTIME]
+
+  # -------------------------
+  # Site configuration
+  # -------------------------
+  - variable: NEXT_PUBLIC_SITE_URL
+    value: https://empyrealenergy.com.ng
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_SITE_NAME
+    value: Empyreal Energy Solutions
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_DELIVERY_FEE
+    value: "5000"
+    availability: [BUILD, RUNTIME]
+
+  # -------------------------
+  # Server-side only (non-secret)
+  # -------------------------
+  - variable: FIREBASE_ADMIN_PROJECT_ID
+    value: empyrealenergy
+    availability: [RUNTIME]
+
+  - variable: ADMIN_EMAIL
+    value: info@empyrealenergy.com.ng
+    availability: [RUNTIME]
+
+  # -------------------------
+  # Secrets (from Secret Manager)
+  # -------------------------
+  - variable: FIREBASE_ADMIN_CLIENT_EMAIL
+    secret: FIREBASE_ADMIN_CLIENT_EMAIL
+    availability: [RUNTIME]
+
+  - variable: FIREBASE_ADMIN_PRIVATE_KEY
+    secret: FIREBASE_ADMIN_PRIVATE_KEY
+    availability: [RUNTIME]
+
+  - variable: PAYSTACK_SECRET_KEY
+    secret: PAYSTACK_SECRET_KEY
+    availability: [RUNTIME]
