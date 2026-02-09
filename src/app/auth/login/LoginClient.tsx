@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
 import { useAuth } from '@/contexts/AuthContext';
 import { isValidEmail } from '@/lib/utils';
-import { LogIn } from 'lucide-react';
+import { LogIn, Mail } from 'lucide-react';
+import { loginWithGoogle } from '@/lib/firebase/auth';
 
 export function LoginClient() {
   const router = useRouter();
@@ -23,6 +24,22 @@ export function LoginClient() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [generalError, setGeneralError] = useState('');
+
+  // Add state
+const [googleLoading, setGoogleLoading] = useState(false);
+
+// Add handler
+const handleGoogleLogin = async () => {
+  setGoogleLoading(true);
+  const result = await loginWithGoogle();
+  setGoogleLoading(false);
+  
+  if (result.success) {
+    router.push(redirectPath);
+  } else {
+    alert(result.error);
+  }
+};
 
   useEffect(() => {
     if (user) router.push(redirectPath);
@@ -130,8 +147,8 @@ export function LoginClient() {
                     <input type="checkbox" className="rounded" />
                     <span>Remember me</span>
                   </label>
-                  <Link 
-                    href="/auth/reset-password" 
+                  <Link
+                    href="/auth/reset-password"
                     className="text-primary-green hover:underline"
                   >
                     Forgot password?
@@ -146,12 +163,39 @@ export function LoginClient() {
                 >
                   Login
                 </Button>
+
+
               </form>
+
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-primary-green/10" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-card-bg text-text-muted">Or</span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                disabled={googleLoading}
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-primary-green/20 rounded-lg hover:border-primary-green hover:bg-primary-green/5 transition-colors disabled:opacity-50"
+              >
+                {googleLoading ? (
+                  <div className="spinner w-5 h-5" />
+                ) : (
+                  <>
+                    <Mail className="w-5 h-5 text-primary-green" />
+                    <span>Continue with Google</span>
+                  </>
+                )}
+              </button>
 
               <div className="mt-6 pt-6 border-t border-primary-green/10 text-center">
                 <p className="text-text-muted text-sm">
                   Don't have an account?{' '}
-                  <Link 
+                  <Link
                     href={`/auth/register${searchParams.get('redirect') ? `?redirect=${searchParams.get('redirect')}` : ''}`}
                     className="text-primary-green hover:underline font-semibold"
                   >

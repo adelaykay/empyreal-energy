@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
 import { loginUser, logoutUser, registerUser, getUserProfile } from '@/lib/firebase/auth';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { UserFormData, User as UserProfile } from '@/types/user';
 
 interface AuthContextType {
@@ -111,3 +112,5 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+

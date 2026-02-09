@@ -26,6 +26,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setIsAdding(false);
   };
 
+  const imageUrl = product.thumbnail || product.images[0];
+
   const discount = product.compareAtPrice 
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
     : 0;
@@ -35,9 +37,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <Card className="h-full flex flex-col group cursor-pointer">
         {/* Image */}
         <div className="relative w-full h-48 mb-4 bg-dark-bg rounded-xl overflow-hidden">
-          {product.images[0] ? (
+          {imageUrl ? (
             <Image
-              src={product.images[0]}
+              src={imageUrl}
               alt={product.name}
               fill
               className="object-cover group-hover:scale-110 transition-transform duration-300"

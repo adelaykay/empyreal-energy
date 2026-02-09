@@ -4,6 +4,8 @@ import {
   signOut,
   sendPasswordResetEmail,
   updateProfile,
+  signInWithPopup,
+  GoogleAuthProvider,
   User,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
@@ -57,6 +59,41 @@ export const loginUser = async (email: string, password: string) => {
     return { success: true, user: userCredential.user };
   } catch (error: any) {
     console.error('Error logging in:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Login with Google
+ */
+export const loginWithGoogle = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Check if user profile exists
+    const userRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      // Create user profile for new Google users
+      const names = user.displayName?.split(' ') || ['', ''];
+      await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        firstName: names[0] || '',
+        lastName: names.slice(1).join(' ') || '',
+        phone: user.phoneNumber || '',
+        addresses: [],
+        role: 'customer',
+        createdAt: serverTimestamp(),
+      });
+    }
+
+    return { success: true, user };
+  } catch (error: any) {
+    console.error('Error with Google sign-in:', error);
     return { success: false, error: error.message };
   }
 };

@@ -16,6 +16,7 @@ export interface Product {
   inStock: boolean;
   stockQuantity: number;
   images: string[];
+  thumbnail?: string; 
   featured: boolean;
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -33,6 +34,7 @@ export interface ProductFormData {
   compareAtPrice?: number;
   inStock: boolean;
   stockQuantity: number;
+  thumbnail?: string;
   images: string[];
   featured: boolean;
 }

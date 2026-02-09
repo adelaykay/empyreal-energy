@@ -27,6 +27,14 @@ export const metadata: Metadata = {
     description: 'Professional solar installation for shops, offices, and homes in Lagos.',
     url: 'https://empyrealenergy.com.ng',
     siteName: 'Empyreal Energy Solutions',
+    images: [
+      {
+        url: '/images/og-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Empyreal Energy Solutions - Solar Power for Business',
+      },
+    ],
     locale: 'en_NG',
     type: 'website',
   },
@@ -34,9 +42,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Empyreal Energy Solutions | Solar for Business',
     description: 'Professional solar installation for shops, offices, and homes in Lagos.',
+    images: ['/images/og-preview.png'],
   },
   icons: {
-    icon: '/favicon.png',
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
 };
 

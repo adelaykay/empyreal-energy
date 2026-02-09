@@ -30,7 +30,39 @@ export function CheckoutSuccessClient() {
 
       try {
         const orderData = await getDocument<Order>('orders', orderId);
-        setOrder(orderData);
+        
+        // Verify payment if status is still pending
+        if (orderData && orderData.paymentStatus === 'pending' && orderData.paystackReference) {
+          console.log('Verifying payment for order:', orderId);
+          
+          try {
+            const verifyResponse = await fetch('/api/paystack/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                reference: orderData.paystackReference,
+                orderId: orderId,
+              }),
+            });
+            
+            const verifyData = await verifyResponse.json();
+            
+            if (verifyData.success) {
+              console.log('Payment verified successfully');
+              // Fetch updated order
+              const updatedOrder = await getDocument<Order>('orders', orderId);
+              setOrder(updatedOrder);
+            } else {
+              console.error('Payment verification failed:', verifyData);
+              setOrder(orderData);
+            }
+          } catch (verifyError) {
+            console.error('Error verifying payment:', verifyError);
+            setOrder(orderData);
+          }
+        } else {
+          setOrder(orderData);
+        }
         
         // Clear cart after successful order
         if (orderData) {
