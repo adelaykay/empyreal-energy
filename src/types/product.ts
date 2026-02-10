@@ -17,6 +17,12 @@ export interface Product {
   stockQuantity: number;
   images: string[];
   thumbnail?: string; 
+  weight?: number; // Weight in kg (for delivery calculation)
+  dimensions?: {
+    length: number;  // inches
+    width: number;   // inches
+    height: number;  // inches
+  };
   featured: boolean;
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -36,6 +42,12 @@ export interface ProductFormData {
   stockQuantity: number;
   thumbnail?: string;
   images: string[];
+  weight?: number;
+  dimensions?: {
+    length: number;
+    width: number;
+    height: number;
+  };
   featured: boolean;
 }
 

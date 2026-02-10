@@ -36,6 +36,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({ product, mode }) => {
         stockQuantity: product?.stockQuantity || 0,
         images: product?.images || [],
         thumbnail: product?.thumbnail || '',
+    weight: product?.weight || undefined,
+    dimensions: product?.dimensions || undefined,
         featured: product?.featured || false,
     });
 
@@ -321,6 +323,77 @@ export const ProductForm: React.FC<ProductFormProps> = ({ product, mode }) => {
                     </div>
                 </div>
             </Card>
+
+            
+
+      {/* Shipping Information */}
+      <Card hover={false}>
+        <h2 className="font-orbitron text-xl font-bold mb-6">Shipping Information</h2>
+        <p className="text-sm text-text-muted mb-4">
+          Required for accurate delivery cost calculation
+        </p>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input
+            label="Weight (kg)"
+            name="weight"
+            type="number"
+            value={formData.weight || ''}
+            onChange={handleChange}
+            min="0"
+            step="0.1"
+            placeholder="e.g., 20"
+          />
+
+          <div className="col-span-2">
+            <label className="label mb-2">Dimensions (inches)</label>
+            <div className="grid grid-cols-3 gap-2">
+              <Input
+                placeholder="Length"
+                name="dimensions.length"
+                type="number"
+                value={formData.dimensions?.length || ''}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  setFormData(prev => ({
+                    ...prev,
+                    dimensions: { ...prev.dimensions, length: value, width: prev.dimensions?.width || 0, height: prev.dimensions?.height || 0 }
+                  }));
+                }}
+                min="0"
+              />
+              <Input
+                placeholder="Width"
+                name="dimensions.width"
+                type="number"
+                value={formData.dimensions?.width || ''}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  setFormData(prev => ({
+                    ...prev,
+                    dimensions: { ...prev.dimensions, width: value, length: prev.dimensions?.length || 0, height: prev.dimensions?.height || 0 }
+                  }));
+                }}
+                min="0"
+              />
+              <Input
+                placeholder="Height"
+                name="dimensions.height"
+                type="number"
+                value={formData.dimensions?.height || ''}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  setFormData(prev => ({
+                    ...prev,
+                    dimensions: { ...prev.dimensions, height: value, length: prev.dimensions?.length || 0, width: prev.dimensions?.width || 0 }
+                  }));
+                }}
+                min="0"
+              />
+            </div>
+          </div>
+        </div>
+      </Card>
 
             {/* Specifications */}
             <Card hover={false}>

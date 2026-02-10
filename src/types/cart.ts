@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
+import { ProductCategory } from './product';
 
 export interface CartItem {
   productId: string;
@@ -8,6 +9,7 @@ export interface CartItem {
   price?: number;
   image?: string;
   inStock?: boolean;
+  category?: ProductCategory;
 }
 
 export interface Cart {
@@ -22,4 +24,5 @@ export interface CartItemWithProduct extends CartItem {
   image: string;
   inStock: boolean;
   stockQuantity: number;
+  category: ProductCategory;
 }

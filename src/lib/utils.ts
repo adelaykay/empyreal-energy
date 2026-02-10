@@ -93,21 +93,32 @@ export const formatPhone = (phone: string): string => {
 };
 
 /**
- * Calculate delivery fee based on LGA (Lagos only for now)
+ * Calculate delivery fee based on LGA and cart items
+ * Uses dynamic algorithm considering weight, dimensions, and distance
  */
-export const calculateDeliveryFee = (lga: string): number => {
-  const deliveryFee = parseInt(process.env.NEXT_PUBLIC_DELIVERY_FEE || '5000');
+export const calculateDeliveryFee = (lga: string, cartItems?: any[]): number => {
+  // Import dynamically to avoid circular dependencies
+  if (cartItems && cartItems.length > 0) {
+    const { calculateDeliveryFee: dynamicCalc } = require('./delivery-calculator');
+    return dynamicCalc(lga, cartItems);
+  }
   
-  // You can add LGA-specific pricing here
-  const lgaPricing: Record<string, number> = {
-    'Mainland': deliveryFee,
-    'Island': deliveryFee + 2000,
-    'Lekki': deliveryFee + 3000,
-    'Ikorodu': deliveryFee + 2000,
-    'Badagry': deliveryFee + 3000,
+  // Fallback: Simple distance-based zones
+  const zones = {
+    zone1: ['Ojo', 'Amuwo-Odofin', 'Ajeromi-Ifelodun', 'Alimosho'], // 5-21km
+    zone2: ['Surulere', 'Apapa', 'Mushin', 'Oshodi-Isolo', 'Lagos Mainland', 'Agege'], // 25-32km
+    zone3: ['Shomolu', 'Lagos Island', 'Badagry', 'Ifako-Ijaiye', 'Ikeja', 'Kosofe'], // 36-40km
+    zone4: ['Ikorodu', 'Eti-Osa'], // 55-60km
+    zone5: ['Ibeju-Lekki', 'Epe'], // 90-100km
   };
 
-  return lgaPricing[lga] || deliveryFee;
+  if (zones.zone1.includes(lga)) return 5000;
+  if (zones.zone2.includes(lga)) return 10000;
+  if (zones.zone3.includes(lga)) return 15000;
+  if (zones.zone4.includes(lga)) return 25000;
+  if (zones.zone5.includes(lga)) return 40000;
+
+  return 10000; // Default
 };
 
 /**
@@ -135,3 +146,33 @@ export const LAGOS_LGAS = [
   'Shomolu',
   'Surulere',
 ];
+
+/**
+ * Convert Naira to Kobo (for Paystack)
+ */
+export const nairaToKobo = (amount: number): number => {
+  return Math.round(amount * 100);
+};
+
+/**
+ * Convert Kobo to Naira
+ */
+export const koboToNaira = (amount: number): number => {
+  return amount / 100;
+};
+
+/**
+ * Generate Paystack reference
+ */
+export const generatePaystackReference = (): string => {
+  return `EMP-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
+/**
+ * Generate order number
+ */
+export const generateOrderNumber = (): string => {
+  const year = new Date().getFullYear();
+  const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+  return `EMP-${year}-${random}`;
+};

@@ -11,13 +11,14 @@ import { Select } from '@/components/ui/Select';
 import { Card } from '@/components/ui/Card';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { formatPrice, LAGOS_LGAS, calculateDeliveryFee } from '@/lib/utils';
+import { formatPrice, LAGOS_LGAS } from '@/lib/utils';
 import { generatePaystackReference, getPaystackPublicKey, nairaToKobo } from '@/lib/paystack/client';
 import { generateOrderNumber } from '@/lib/firebase/firestore';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { ShieldCheck, Package, Truck } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { calculateDeliveryFee } from '@/lib/delivery-calculator';
 
 const PaystackButton = dynamic(
   () => import("@/components/payments/PaystackButtonClient"),
@@ -38,7 +39,8 @@ export default function CheckoutPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const deliveryFee = formData.lga ? calculateDeliveryFee(formData.lga) : 5000;
+   // Calculate delivery fee dynamically based on cart contents and LGA
+  const deliveryFee = formData.lga ? calculateDeliveryFee(formData.lga, items) : 5000;
   const grandTotal = totalPrice + deliveryFee;
 
   const isFormValid =
