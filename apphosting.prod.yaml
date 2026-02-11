@@ -38,7 +38,7 @@ env:
   # Paystack (public)
   # -------------------------
   - variable: NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
-    value: pk_test_b4d3370b1ca3d417545358c0ba5bf696de7d019c
+    value: pk_live_7922395abe0e0a4b4a76d0503196eb0ae3033d25
     availability: [BUILD, RUNTIME]
 
   # -------------------------
