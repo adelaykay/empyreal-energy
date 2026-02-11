@@ -20,6 +20,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           className={cn(
             'input-field',
+            "[&>option]:text-gray-900 [&>option]:bg-white dark:[&>option]:text-gray-100 dark:[&>option]:bg-slate-900",
             error && 'border-red-500',
             className
           )}

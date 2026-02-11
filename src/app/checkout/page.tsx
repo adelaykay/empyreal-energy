@@ -14,7 +14,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { formatPrice, LAGOS_LGAS } from '@/lib/utils';
 import { generatePaystackReference, getPaystackPublicKey, nairaToKobo } from '@/lib/paystack/client';
 import { generateOrderNumber } from '@/lib/firebase/firestore';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { ShieldCheck, Package, Truck } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -39,7 +39,6 @@ export default function CheckoutPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-   // Calculate delivery fee dynamically based on cart contents and LGA
   const deliveryFee = formData.lga ? calculateDeliveryFee(formData.lga, items) : 5000;
   const grandTotal = totalPrice + deliveryFee;
 
@@ -117,7 +116,8 @@ export default function CheckoutPage() {
     };
 
     try {
-      const docRef = await addDoc(collection(db, 'orders'), orderData);
+      const docRef = doc(db, 'orders', orderData.paystackReference);
+      await setDoc(docRef, orderData);
       return docRef.id;
     } catch (error) {
       console.error('Error creating order:', error);
@@ -127,14 +127,12 @@ export default function CheckoutPage() {
 
   const handlePaystackSuccess = async (reference: any) => {
     setLoading(true);
+    console.log('Payment successful with reference:', reference);
 
     // Create order in database
     const orderId = await createOrder(reference.reference);
 
     if (orderId) {
-      // Redirect to success page first (don't clear cart yet)
-      router.push(`/checkout/success?orderId=${orderId}`);
-      
       // Clear cart after redirect (will happen in background)
       setTimeout(async () => {
         await clearCart();
@@ -178,7 +176,7 @@ export default function CheckoutPage() {
   }
 
   const paystackConfig = {
-    reference: generatePaystackReference(),
+    reference: '',
     email: userProfile?.email || '',
     amount: nairaToKobo(grandTotal),
     publicKey: getPaystackPublicKey(),

@@ -61,8 +61,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Load from localStorage for guests
         const localCart = localStorage.getItem('cart');
         if (localCart) {
-          const cartItems: CartItem[] = JSON.parse(localCart);
-          await enrichCartItems(cartItems);
+          try {
+            const cartItems: CartItem[] = JSON.parse(localCart);
+            await enrichCartItems(cartItems);
+          } catch (e) {
+            console.error("Failed to parse local cart", e);
+            localStorage.removeItem('cart');
+          }
         }
       }
       
@@ -86,6 +91,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           image: product.images[0] || '',
           inStock: product.inStock,
           stockQuantity: product.stockQuantity,
+          category: product.category, // <--- FIXED: Added category here
         });
       }
     }
@@ -103,7 +109,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (cartDoc.exists()) {
         const cartData = cartDoc.data();
-        await enrichCartItems(cartData.items);
+        if (cartData.items) {
+           await enrichCartItems(cartData.items);
+        }
       }
     } catch (error) {
       console.error('Error syncing cart:', error);
@@ -112,6 +120,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Save cart to storage
   const saveCart = async (updatedItems: CartItemWithProduct[]) => {
+    // We only save ID and Quantity to persistent storage (DB/Local)
     const cartItems: CartItem[] = updatedItems.map(item => ({
       productId: item.productId,
       quantity: item.quantity,
@@ -134,15 +143,22 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('cart', JSON.stringify(cartItems));
     }
 
+    // Update local state (which includes full product details + category)
     setItems(updatedItems);
   };
 
   // Add item to cart
   const addItem = async (productId: string, quantity: number = 1) => {
-    const product = await getDocument<Product>('products', productId);
-    if (!product) return;
-
+    // Check if we already have the product details in memory to save a read
     const existingItem = items.find(item => item.productId === productId);
+    
+    let product: Product | null = null;
+    
+    // If it's a new item, we MUST fetch it to get the category/price
+    if (!existingItem) {
+        product = await getDocument<Product>('products', productId);
+        if (!product) return;
+    }
 
     let updatedItems: CartItemWithProduct[];
 
@@ -155,14 +171,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       );
     } else {
       // Add new item
+      // We know 'product' is not null here because of the check above
       const newItem: CartItemWithProduct = {
         productId,
         quantity,
-        name: product.name,
-        price: product.price,
-        image: product.images[0] || '',
-        inStock: product.inStock,
-        stockQuantity: product.stockQuantity,
+        name: product!.name,
+        price: product!.price,
+        image: product!.images[0] || '',
+        inStock: product!.inStock,
+        stockQuantity: product!.stockQuantity,
+        category: product!.category, // <--- FIXED: Added category here
       };
       updatedItems = [...items, newItem];
     }

@@ -24,5 +24,7 @@ export interface CartItemWithProduct extends CartItem {
   image: string;
   inStock: boolean;
   stockQuantity: number;
-  category: ProductCategory;
+  category?: ProductCategory;
 }
+
+

@@ -23,6 +23,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     
     setIsAdding(true);
     await addItem(product.id);
+    
     setIsAdding(false);
   };
 
