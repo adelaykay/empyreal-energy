@@ -108,12 +108,12 @@ export const Footer: React.FC = () => {
           <p className="text-text-muted text-sm">
             &copy; {currentYear} Empyreal Energy Solutions. Managed by{' '}
             <a 
-              href="https://www.linkedin.com/in/adeleke-olasope-0a097b19b/" 
+              href="https://www.linkedin.com/company/empyreal-digital-works/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-primary-green hover:underline"
             >
-              Engr. Adeleke Olasope
+              Empyreal Digital Works
             </a>
           </p>
         </div>

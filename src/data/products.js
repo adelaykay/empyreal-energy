@@ -1,9 +1,19 @@
-import { Timestamp } from 'firebase/firestore'; // Assuming you use the Web SDK
+import admin from 'firebase-admin';
+import serviceAccount from './serviceAccountKey.json' with {type: 'json'}; // Ensure this file is in .gitignore
+import { Timestamp } from 'firebase-admin/firestore';
+
+const key = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
 
 // Helper to create a dummy timestamp for the sample data
 const now = Timestamp.now();
 
-export const sampleProducts = [
+
+const products = [
   // --- SOLAR PANELS ---
   {
     id: "pnl-001",
@@ -297,3 +307,35 @@ export const sampleProducts = [
     updatedAt: now
   }
 ];
+
+// 3. The Upload Function
+async function uploadData() {
+  const collectionRef = db.collection('products');
+  const batch = db.batch();
+
+  console.log(`Starting upload of ${products.length} products...`);
+
+  products.forEach((product) => {
+    // We use the 'id' field as the document ID so URLs look clean
+    // e.g., /products/pnl-001
+    const docRef = collectionRef.doc(product.id);
+    
+    // Add timestamps (Server side)
+    const productWithTimestamps = {
+      ...product,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+    };
+
+    batch.set(docRef, productWithTimestamps);
+  });
+
+  try {
+    await batch.commit();
+    console.log('✅ Success! All products uploaded to Firestore.');
+  } catch (error) {
+    console.error('❌ Error uploading products:', error);
+  }
+}
+
+uploadData();

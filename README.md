@@ -1,17 +1,17 @@
 # Empyreal Energy Solutions - E-commerce Platform
 
-A modern, full-stack e-commerce platform for solar energy products built with Next.js 14, TypeScript, Firebase, and Paystack.
+A modern, full-stack e-commerce platform for solar energy products built with Next.js 16, TypeScript, Firebase, and Paystack.
 
 ## 🚀 Tech Stack
 
-- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS
+- **Frontend**: Next.js 16 (App Router), TypeScript, Tailwind CSS
 - **Backend**: Firebase (Firestore, Authentication, Storage)
 - **Payments**: Paystack
 - **Deployment**: Vercel (recommended) or Firebase Hosting
 
 ## 📋 Prerequisites
 
-- Node.js 18+ and npm/yarn
+- Node.js 22+ and npm/yarn
 - Firebase account
 - Paystack account
 - Git
@@ -31,7 +31,7 @@ npm install
 1. Go to [Firebase Console](https://console.firebase.google.com)
 2. Create a new project (or use existing `empyrealenergy`)
 3. Enable Firestore Database
-4. Enable Authentication (Email/Password provider)
+4. Enable Authentication (Email/Password provider & Google Provider)
 5. Enable Storage
 
 #### Get Firebase Config
@@ -99,7 +99,7 @@ firebase deploy --only storage:rules
 
 ### 5. Seed Initial Data (Optional)
 
-You can manually add products through the admin dashboard or use the Firebase console to import your `products.tsx` sample data.
+You can manually add products through the admin dashboard or use the Firebase console to import your `products.js` sample data.
 
 ### 6. Create Admin User
 
@@ -161,34 +161,34 @@ empyreal-energy/
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-
-```bash
-npm install -g vercel
-vercel login
-vercel --prod
-```
-
-Add environment variables in Vercel dashboard.
-
-### Firebase Hosting
+###  Firebase (Recommended)
 
 ```bash
 npm run build
 firebase deploy --only hosting
 ```
 
+
+### Vercel Hosting
+
+```bash
+npm install -g vercel
+vercel login
+vercel --prod
+```
+Add environment variables in Vercel dashboard.
+
 ## 📝 Next Steps
 
 1. ✅ Set up Firebase project
 2. ✅ Configure environment variables
 3. ✅ Deploy security rules
-4. ⬜ Create admin user
-5. ⬜ Add products via admin dashboard
-6. ⬜ Test checkout flow with Paystack test keys
-7. ⬜ Configure domain
-8. ⬜ Switch to Paystack live keys
-9. ⬜ Launch! 🎉
+4. ✅ Create admin user
+5. ✅ Add products via admin dashboard
+6. ✅ Test checkout flow with Paystack test keys
+7. ✅ Configure domain
+8. ✅ Switch to Paystack live keys
+9. ✅ Launch! 🎉
 
 ## 🐛 Troubleshooting
 
@@ -208,7 +208,7 @@ firebase deploy --only hosting
 
 ## 📧 Support
 
-For technical issues, contact: info@empyrealworks.com
+For technical issues, contact: info@empyrealenergy.com.ng
 
 ## 📄 License
 

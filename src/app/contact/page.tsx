@@ -132,7 +132,7 @@ ${formData.message}
                     <div>
                       <h3 className="font-semibold mb-1">Email</h3>
                       <a 
-                        href="mailto:info@empyrealworks.com" 
+                        href="mailto:info@empyrealenergy.com.ng" 
                         className="text-text-muted hover:text-primary-green transition-colors"
                       >
                         info@empyrealenergy.com.ng
