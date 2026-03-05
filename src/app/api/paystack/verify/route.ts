@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin'; // Use Admin SDK
 import admin from 'firebase-admin'; // Import for FieldValue
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const { reference } = await request.json();
