@@ -91,7 +91,6 @@ export function ForgotPasswordClient() {
                     placeholder="Enter your registered email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    icon={<Mail className="w-5 h-5 text-text-muted" />}
                   />
                 </div>
 
