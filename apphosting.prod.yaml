@@ -61,7 +61,7 @@ env:
   # -------------------------
   - variable: FIREBASE_ADMIN_PROJECT_ID
     value: empyrealenergy
-    availability: [RUNTIME]
+    availability: [BUILD, RUNTIME]
 
   - variable: ADMIN_EMAIL
     value: info@empyrealenergy.com.ng
@@ -72,12 +72,12 @@ env:
   # -------------------------
   - variable: FIREBASE_ADMIN_CLIENT_EMAIL
     secret: FIREBASE_ADMIN_CLIENT_EMAIL
-    availability: [RUNTIME]
+    availability: [BUILD, RUNTIME]
 
   - variable: FIREBASE_ADMIN_PRIVATE_KEY
     secret: FIREBASE_ADMIN_PRIVATE_KEY
-    availability: [RUNTIME]
+    availability: [BUILD, RUNTIME]
 
   - variable: PAYSTACK_SECRET_KEY
     secret: PAYSTACK_SECRET_KEY
-    availability: [RUNTIME]
+    availability: [BUILD, RUNTIME]
