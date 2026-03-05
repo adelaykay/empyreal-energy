@@ -26,20 +26,20 @@ export function LoginClient() {
   const [generalError, setGeneralError] = useState('');
 
   // Add state
-const [googleLoading, setGoogleLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
-// Add handler
-const handleGoogleLogin = async () => {
-  setGoogleLoading(true);
-  const result = await loginWithGoogle();
-  setGoogleLoading(false);
-  
-  if (result.success) {
-    router.push(redirectPath);
-  } else {
-    alert(result.error);
-  }
-};
+  // Add handler
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    const result = await loginWithGoogle();
+    setGoogleLoading(false);
+
+    if (result.success) {
+      router.push(redirectPath);
+    } else {
+      alert(result.error);
+    }
+  };
 
   useEffect(() => {
     if (user) router.push(redirectPath);
@@ -148,7 +148,7 @@ const handleGoogleLogin = async () => {
                     <span>Remember me</span>
                   </label>
                   <Link
-                    href="/auth/reset-password"
+                    href="/auth/forgot-password"
                     className="text-primary-green hover:underline"
                   >
                     Forgot password?
