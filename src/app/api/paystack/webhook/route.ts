@@ -1,6 +1,10 @@
+// src/app/api/paystack/webhook/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
 import crypto from 'crypto';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {

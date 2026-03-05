@@ -1,3 +1,5 @@
+// src/app/api/paystack/verify/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin'; // Use Admin SDK
 import admin from 'firebase-admin'; // Import for FieldValue
