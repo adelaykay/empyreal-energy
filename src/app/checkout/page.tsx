@@ -137,6 +137,7 @@ export default function CheckoutPage() {
       setTimeout(async () => {
         await clearCart();
       }, 1000);
+      router.push('/checkout/success?reference=' + reference.reference);
     } else {
       alert('Order creation failed. Please contact support with reference: ' + reference.reference);
     }

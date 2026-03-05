@@ -15,7 +15,7 @@ import { useCart } from '@/contexts/CartContext';
 
 export function CheckoutSuccessClient() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get('orderId');
+  const orderId = searchParams.get('reference');
   const { clearCart } = useCart();
   
   const [order, setOrder] = useState<Order | null>(null);
@@ -46,6 +46,7 @@ export function CheckoutSuccessClient() {
             });
             
             const verifyData = await verifyResponse.json();
+            console.log('Verification response:', verifyData);
             
             if (verifyData.success) {
               console.log('Payment verified successfully');

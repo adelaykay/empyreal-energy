@@ -9,6 +9,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const { reference } = await request.json();
+    console.log('Received verification request for reference:', reference);
 
     if (!reference) {
       return NextResponse.json({ error: 'Reference is required' }, { status: 400 });
