@@ -1,123 +1,55 @@
 import React from 'react';
 import Link from 'next/link';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { PACKAGES } from '@/lib/packages';
 
-export const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-
-  return (
-    <footer className="bg-card-bg border-t border-primary-green/10 mt-20">
-      <div className="container-custom py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
-            <h3 className="font-orbitron text-xl font-bold text-gradient mb-4">
-              Empyreal Energy
-            </h3>
-            <p className="text-text-muted text-sm mb-4">
-              Professional solar energy solutions for Nigerian businesses. Reliable power, predictable costs, unlimited potential.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-orbitron text-primary-green font-semibold mb-4">
-              Quick Links
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/products" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Product Categories */}
-          <div>
-            <h4 className="font-orbitron text-primary-green font-semibold mb-4">
-              Products
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/products?category=panel" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  Solar Panels
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=battery" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  Batteries
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=inverter" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  Inverters
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=controller" className="text-text-muted hover:text-primary-green transition-colors text-sm">
-                  Controllers
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="font-orbitron text-primary-green font-semibold mb-4">
-              Contact Us
-            </h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2 text-text-muted text-sm">
-                <MapPin className="w-4 h-4 text-primary-green mt-0.5 flex-shrink-0" />
-                <span>Lagos, Nigeria</span>
-              </li>
-              <li className="flex items-center gap-2 text-text-muted text-sm">
-                <Phone className="w-4 h-4 text-primary-green flex-shrink-0" />
-                <a href="tel:+2347072773143" className="hover:text-primary-green transition-colors">
-                  +234 707 277 3143
-                </a>
-              </li>
-              <li className="flex items-center gap-2 text-text-muted text-sm">
-                <Mail className="w-4 h-4 text-primary-green flex-shrink-0" />
-                <a href="mailto:info@empyrealenergy.com.ng" className="hover:text-primary-green transition-colors">
-                  info@empyrealenergy.com.ng
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="border-t border-primary-green/10 mt-8 pt-8 text-center">
-          <p className="text-text-muted text-sm">
-            &copy; {currentYear} Empyreal Energy Solutions. Managed by{' '}
-            <a 
-              href="https://www.linkedin.com/company/empyreal-digital-works/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary-green hover:underline"
-            >
-              Empyreal Digital Works
-            </a>
+export const Footer: React.FC = () => (
+  <footer className="bg-card-bg/60 border-t border-primary-green/10 mt-20">
+    <div className="container-custom py-12">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="md:col-span-2">
+          <h3 className="font-orbitron text-xl font-bold text-gradient mb-4">Empyreal Energy</h3>
+          <p className="text-text-muted text-sm max-w-sm">
+            Solar and battery backup systems for Nigerian businesses. Reliable power, predictable costs.
           </p>
         </div>
+
+        <div>
+          <h4 className="eyebrow mb-4">Explore</h4>
+          <ul className="space-y-2 text-sm">
+            <li><Link href="/services" className="text-text-muted hover:text-primary-green">Packages</Link></li>
+            {PACKAGES.map((p) => (
+              <li key={p.id}>
+                <Link href="/services" className="text-text-muted hover:text-primary-green">{p.name}</Link>
+              </li>
+            ))}
+            <li><Link href="/about" className="text-text-muted hover:text-primary-green">About us</Link></li>
+            <li><Link href="/contact" className="text-text-muted hover:text-primary-green">Contact</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="eyebrow mb-4">Contact</h4>
+          <ul className="space-y-3 text-sm text-text-muted">
+            <li className="flex items-start gap-2"><MapPin className="w-4 h-4 text-primary-green mt-0.5" /> Lagos, Nigeria</li>
+            <li className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-primary-green" />
+              <a href="tel:+2347072773143" className="hover:text-primary-green">+234 707 277 3143</a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-primary-green" />
+              <a href="mailto:info@empyrealenergy.com.ng" className="hover:text-primary-green">info@empyrealenergy.com.ng</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </footer>
-  );
-};
+
+      <div className="border-t border-primary-green/10 mt-8 pt-8 text-center text-sm text-text-muted">
+        &copy; {new Date().getFullYear()} Empyreal Energy Solutions. Managed by{' '}
+        <a href="https://www.linkedin.com/company/empyreal-digital-works/" target="_blank" rel="noopener noreferrer" className="text-primary-green hover:underline">
+          Empyreal Digital Works
+        </a>
+      </div>
+    </div>
+  </footer>
+);

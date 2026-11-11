@@ -1,62 +1,59 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
+import { ArrowRight, ShieldCheck, Headphones, Wrench } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { ArrowRight } from 'lucide-react';
+import { PACKAGES, formatNumber } from '@/lib/packages';
+import { formatPrice } from '@/lib/utils';
 
-export const HeroSection: React.FC = () => {
-  return (
-    <section className="relative section-padding overflow-hidden">
-      {/* Background gradient effects */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-primary-green/5 to-transparent" />
-        <div className="absolute bottom-0 right-0 w-full h-full bg-gradient-radial from-secondary-green/5 to-transparent" />
+export const HeroSection: React.FC = () => (
+  <section className="relative overflow-hidden grid-bg">
+    <div className="absolute inset-0 -z-10 bg-gradient-radial from-primary-green/10 via-transparent to-transparent" />
+    <div className="container-custom py-16 md:py-24 grid lg:grid-cols-12 gap-12 items-center">
+      <div className="lg:col-span-7 animate-fade-in">
+        <p className="eyebrow mb-5">Solar for Nigerian businesses</p>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6">
+          Stop paying for fuel.{' '}
+          <span className="text-gradient glow-green">Run on the sun.</span>
+        </h1>
+        <p className="text-lg md:text-xl text-text-muted mb-8 max-w-xl">
+          Complete solar and battery systems for shops, salons, pharmacies and offices in Lagos. Fixed price,
+          professional installation, no generator noise.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 mb-10">
+          <Link href="/services#booking">
+            <Button size="lg" className="w-full sm:w-auto">
+              Book a free site assessment <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+          <Link href="/services">
+            <Button variant="secondary" size="lg" className="w-full sm:w-auto">View packages</Button>
+          </Link>
+        </div>
+        <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-text-muted">
+          <li className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-primary-green" /> 5-year warranty</li>
+          <li className="flex items-center gap-2"><Wrench className="w-4 h-4 text-primary-green" /> Installation included</li>
+          <li className="flex items-center gap-2"><Headphones className="w-4 h-4 text-primary-green" /> 24/7 support</li>
+        </ul>
       </div>
 
-      <div className="container-custom">
-        <div className="max-w-4xl mx-auto text-center animate-fade-in">
-          <h1 className="font-orbitron text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            Power Your Business with{' '}
-            <span className="text-gradient glow-green">Solar Energy</span>
-          </h1>
-          
-          <p className="text-lg sm:text-xl md:text-2xl text-text-muted mb-8 max-w-2xl mx-auto">
-            Professional solar installation packages designed for Nigerian small businesses. 
-            Reliable power, predictable costs, unlimited potential.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="/products">
-              <Button size="lg" className="w-full sm:w-auto">
-                Shop Products
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/services">
-              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                View Services
-              </Button>
-            </Link>
-          </div>
-
-          {/* Trust indicators */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-orbitron font-bold text-primary-green mb-2">500+</div>
-              <div className="text-sm text-text-muted">Installations</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-orbitron font-bold text-primary-green mb-2">5 Years</div>
-              <div className="text-sm text-text-muted">Warranty</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-orbitron font-bold text-primary-green mb-2">24/7</div>
-              <div className="text-sm text-text-muted">Support</div>
-            </div>
+      <div className="lg:col-span-5">
+        <div className="glass rounded-3xl p-6 md:p-8">
+          <p className="eyebrow mb-4">Sizing at a glance</p>
+          <div className="divide-y divide-primary-green/10">
+            {PACKAGES.map((p) => (
+              <div key={p.id} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
+                <div>
+                  <div className="font-orbitron font-semibold">{p.name.replace('The ', '')}</div>
+                  <div className="text-xs text-text-muted">
+                    {formatNumber(p.backupWh)} Wh backup · {formatNumber(p.solarW)} W solar
+                  </div>
+                </div>
+                <div className="text-primary-green font-bold whitespace-nowrap">{formatPrice(p.price)}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);

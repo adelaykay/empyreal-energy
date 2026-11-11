@@ -18,9 +18,9 @@ const config: Config = {
         'accent-yellow': '#FFD93D',
       },
       fontFamily: {
-        orbitron: ['Orbitron', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
-      },
+        orbitron: ['var(--font-orbitron)', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
+      },  
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-green': 'linear-gradient(135deg, #7FFF6A, #4FFFDE)',
